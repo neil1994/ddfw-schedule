@@ -1,0 +1,17 @@
+#数据库连接配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springbootdb?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
+#logger 日志配置
+logging:
+  level: error
+
+#企业服务地址
+enterprise_project: http://103.237.2.28:8084/enterprise/
+#服务商服务地址
+provider_project: http://103.237.2.28:8085/provider/

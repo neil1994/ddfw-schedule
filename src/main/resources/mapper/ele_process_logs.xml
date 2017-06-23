@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 测试代码-->
+<mapper namespace="com.dxhy.dispatch.manage.dao.ScheduleDao">
+
+	<resultMap id="eleProcessLogs" type="com.dxhy.dispatch.manage.bean.tables.EleProcessLogs"/>
+
+	<insert id="installProcessLog">
+		INSERT INTO `ele_process_logs`
+		VALUES
+			(
+				#{pk_process_logs},
+				#{provider_id},
+				#{enterprise_id},
+				#{ratepayers_code},
+				#{process_code},
+				#{process_msg},
+				#{process_status},
+				#{notice_status},
+				#{create_time}
+			);
+	</insert>
+	
+	<update id="updateProcessLog"  >
+		UPDATE ele_process_logs
+		SET process_code = #{process_code},
+		 process_msg = #{process_msg},
+		 process_status = #{process_status},
+		 notice_status = #{notice_status}
+		WHERE
+			pk_process_logs = #{pk_process_logs}
+	</update>
+
+	<update id="updateProcessLogEnterpriseMsg"  >
+		UPDATE ele_process_logs
+		SET enterprise_id = #{enterprise_id},
+		provider_id = #{provider_id}
+		WHERE
+		pk_process_logs = #{pk_process_logs}
+	</update>
+	<select id="selectEleProcessLogs" resultMap="eleProcessLogs">
+		SELECT
+			*
+		FROM
+			ele_process_logs
+		WHERE
+			ratepayers_code = #{ratepayers_code}
+
+	</select>
+
+	<select id="selectEleProcessLogsById" resultMap="eleProcessLogs">
+		SELECT
+			*
+		FROM
+			ele_process_logs
+		WHERE
+			pk_process_logs = #{pk_process_logs}
+	</select>
+    
+</mapper>
