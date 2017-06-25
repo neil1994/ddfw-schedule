@@ -1,7 +1,6 @@
-package com.dxhy.dispatch.constants;
+package com.dxhy.dispatch.manage.constants;
 
 import com.dxhy.dispatch.DdfwScheduleApplication;
-import com.dxhy.dispatch.manage.constants.UrlConstants;
 import com.dxhy.dispatch.manage.service.HandlerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,10 +23,7 @@ public class UrlContantsTest {
     @Test
     public void testGetUrlPasrm(){
         logger.info("测试UrlConstants工具类获取配置数据");
-        String captcha = urlConstants.getCaptcha();
-        logger.info("UrlConstants工具类获取配置数据,captcha为:{}",captcha);
-
-
+        logger.info("UrlConstants工具类获取配置数据,captcha为:{}",urlConstants.toString());
     }
 
 }

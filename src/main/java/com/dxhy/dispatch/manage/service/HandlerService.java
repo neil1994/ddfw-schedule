@@ -20,8 +20,8 @@ import java.io.IOException;
  * 操作-模版
         */
 public abstract class HandlerService {
-
-    protected ObjectMapper objectMapper=new ObjectMapper();
+    @Autowired
+    protected ObjectMapper objectMapper;
     @Autowired
     protected UrlConstants urlConstants;
     @Autowired

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dxhy.dispatch.constants.RegexEnum;
+import com.dxhy.dispatch.manage.constants.RegexEnum;
 import org.apache.commons.lang.StringUtils;
 
 /**

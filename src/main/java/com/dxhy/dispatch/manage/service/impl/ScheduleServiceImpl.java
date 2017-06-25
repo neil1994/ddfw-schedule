@@ -45,11 +45,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     private HandlerService pushEnterpriseMsgToProviderHandler;
     @Autowired
     private HandlerService makeCaAndSignatureHandler;
-
-
     @Autowired
     private ScheduleDao scheduleDao;
-
     @Autowired
     private OpenApiDao openApiDao;
 
@@ -57,37 +54,38 @@ public class ScheduleServiceImpl implements ScheduleService {
     private String provider_id;
 
     private List<String> whiteLists;
+
     @Override
     public void schedule(String serialNum, String json) {
         Enterprise enterprise = parseJsom(json);
-        whiteLists=getWhiteLists();
+        whiteLists = getWhiteLists();
         ServiceInfo serviceInfo = enterprise.getServiceInfo();
         if (null != enterprise.getServiceInfo()) {
-        	logger.debug("处理解析后的签章状态，初始化为:0");
-        	serviceInfo.setSignatureStatus("0");
-			logger.debug("处理解析后的金税盘类型，初始化为:1");
-			serviceInfo.setTaxDiscType("1");
-			enterprise.setServiceInfo(serviceInfo);
-		}else{
-			logger.error("企业需要的服务的相关信息ServiceInfo为Null");
-		}
-        
+	  logger.debug("处理解析后的签章状态，初始化为:0");
+	  serviceInfo.setSignatureStatus("0");
+	  logger.debug("处理解析后的金税盘类型，初始化为:1");
+	  serviceInfo.setTaxDiscType("1");
+	  enterprise.setServiceInfo(serviceInfo);
+        } else {
+	  logger.error("企业需要的服务的相关信息ServiceInfo为Null");
+        }
+
         logger.debug("开始处理流水号为{}的数据", serialNum);
         //TODO 在处理数据的时候，完全需要先去数据库中读取数据，然后判断数据库信息，最终跳过某些步骤
         EnterpriseBase enterpriseBase = enterprise.getEnterpriseBase();
-        EleProcessLogs eleProcessLogs=scheduleDao.selectEleProcessLogs(enterpriseBase.getRatepayersCode());
-        if(eleProcessLogs==null){
-            eleProcessLogs = new EleProcessLogs(provider_id, "企业id当前未生成！", enterpriseBase.getRatepayersCode(), StartHandler.getCode()+"0",
-                    StartHandler.getDescribe(), "1", "0");
-            logger.info("插入调度记录表，记录为开始处理业务");
-            if(scheduleDao.installProcessLog(eleProcessLogs)){
-                Map<String,String> map=new HashMap<>();
-                map.put("dataExchangeId",serialNum);
-                map.put("processStatus","2");
-                openApiDao.updateProcessStatus(map);
-            }else{
-                logger.error("插入调度记录表失败，失败数据为{},对该条数据不做任何处理，请求内层数据为：{}", eleProcessLogs, json);
-            }
+        EleProcessLogs eleProcessLogs = scheduleDao.selectEleProcessLogs(enterpriseBase.getRatepayersCode());
+        if (eleProcessLogs == null) {
+	  eleProcessLogs = new EleProcessLogs(provider_id, "企业id当前未生成！", enterpriseBase.getRatepayersCode(), StartHandler.getCode() + "0",
+		StartHandler.getDescribe(), "1", "0");
+	  logger.info("插入调度记录表，记录为开始处理业务");
+	  if (scheduleDao.installProcessLog(eleProcessLogs)) {
+	      Map<String, String> map = new HashMap<>();
+	      map.put("dataExchangeId", serialNum);
+	      map.put("processStatus", "2");
+	      openApiDao.updateProcessStatus(map);
+	  } else {
+	      logger.error("插入调度记录表失败，失败数据为{},对该条数据不做任何处理，请求内层数据为：{}", eleProcessLogs, json);
+	  }
         }
         HandlerData handlerData = new HandlerData(enterprise, serialNum);
         handlerData.setEleProcessLogs(eleProcessLogs);
@@ -96,18 +94,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     /**
      * 解析传过来的json数据
+     *
      * @param json
      * @return
      */
     private Enterprise parseJsom(String json) {
         logger.info("json内层报文解析");
         logger.debug("需要解析的json报文为：{}", json);
-        Enterprise enterprise=new Enterprise();
-        ObjectMapper objectMapper=new ObjectMapper();
+        Enterprise enterprise = new Enterprise();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            enterprise=objectMapper.readValue(json,Enterprise.class);
+	  enterprise = objectMapper.readValue(json, Enterprise.class);
         } catch (IOException e) {
-            e.printStackTrace();
+	  e.printStackTrace();
         }
         return enterprise;
     }
@@ -129,18 +128,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         handlerServiceList.add(pushEnterpriseMsgToProviderHandler);
 
         for (int i = 0; i < handlerServiceList.size() - 1; i++) {
-            handlerServiceList.get(i).setNextHandler(handlerServiceList.get(i + 1));
+	  handlerServiceList.get(i).setNextHandler(handlerServiceList.get(i + 1));
         }
         handlerServiceList.get(0).handlerService(handlerData);
     }
 
     /**
      * 获取白名单
+     *
      * @return
      */
     public List<String> getWhiteLists() {
-        if(whiteLists.isEmpty()){
-            whiteLists.add("10");
+        if (whiteLists.isEmpty()) {
+	  whiteLists.add("10");
         }
         return whiteLists;
     }

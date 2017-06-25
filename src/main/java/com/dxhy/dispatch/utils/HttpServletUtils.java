@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.dxhy.dispatch.constants.SystemConstants.charset;
+import static com.dxhy.dispatch.manage.constants.SystemConstants.charset;
 import static com.dxhy.dispatch.utils.StringUtils.stringConcatenation;
 
 

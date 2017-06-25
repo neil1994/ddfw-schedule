@@ -19,12 +19,12 @@ import java.util.Date;
  */
 @Service
 public class ProviderMsg {
-	
-	private static Logger logger= LoggerFactory.getLogger(ProviderMsg.class);
-	
-    private static Long expriseTime=0L;
 
-    private static long sessionExprise=20*60*1000;
+    private static Logger logger = LoggerFactory.getLogger(ProviderMsg.class);
+
+    private static Long expriseTime = 0L;
+
+    private static long sessionExprise = 20 * 60 * 1000;
 
     @Autowired
     private UrlConstants urlConstants;
@@ -42,39 +42,39 @@ public class ProviderMsg {
         JsonNode node = objectMapper.readTree(response);
         String code = node.findValue("code").asText();
         if ("200".equals(code)) {
-            providerId = node.findValue("pk_provider").asText();
-            providerProductId = node.findValue("pk_provider_product").asText();
-            logger.info("用户登录成功后，providerId：{},providerProductId:{}",providerId,providerProductId);
+	  providerId = node.findValue("pk_provider").asText();
+	  providerProductId = node.findValue("pk_provider_product").asText();
+	  logger.info("用户登录成功后，providerId：{},providerProductId:{}", providerId, providerProductId);
         } else {
-            throw new HttpResponseException(Integer.parseInt(code), node.findValue("message").asText());
+	  throw new HttpResponseException(Integer.parseInt(code), node.findValue("message").asText());
         }
     }
 
     public String getProviderId() throws IOException {
         if (providerId == null) {
-            queryProvider(providerCookie);
+	  queryProvider(providerCookie);
         }
         return providerId;
     }
 
     public String getProviderProductId() throws IOException {
         if (providerProductId == null) {
-            queryProvider(providerCookie);
+	  queryProvider(providerCookie);
         }
         return providerProductId;
     }
 
     public String getProviderCookie() throws IOException {
-        Long now=new Date().getTime();
-        if(now>expriseTime+sessionExprise){
-    	providerCookie = HttpServletUtils.login(urlConstants.getProvider_userName(), urlConstants.getProvider_password(),urlConstants.getProviderLogin(),urlConstants.getCaptcha());
-            expriseTime=now;
+        Long now = new Date().getTime();
+        if (now > expriseTime + sessionExprise) {
+	  providerCookie = HttpServletUtils.login(urlConstants.getProvider_userName(), urlConstants.getProvider_password(), urlConstants.getProviderLogin(), urlConstants.getCaptcha());
+	  expriseTime = now;
         }
-        if (providerCookie==null&&"".equals(providerCookie)) {
-        	providerCookie = HttpServletUtils.login(urlConstants.getProvider_userName(), urlConstants.getProvider_password(),urlConstants.getProviderLogin(),urlConstants.getCaptcha());
-		}
-        logger.info("服务商用户登录成功后，providerCookie:{}",providerCookie);
-    	return providerCookie;
+        if (providerCookie == null && "".equals(providerCookie)) {
+	  providerCookie = HttpServletUtils.login(urlConstants.getProvider_userName(), urlConstants.getProvider_password(), urlConstants.getProviderLogin(), urlConstants.getCaptcha());
+        }
+        logger.info("服务商用户登录成功后，providerCookie:{}", providerCookie);
+        return providerCookie;
     }
 
 }

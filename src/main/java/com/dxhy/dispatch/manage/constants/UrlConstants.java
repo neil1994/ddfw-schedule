@@ -15,6 +15,7 @@ public class UrlConstants {
     private String enterprise_register;
     private String enterprise_saveServiceRequest;
 
+
     private String captcha;
 
 
@@ -217,14 +218,30 @@ public class UrlConstants {
     public String getProviderEnterprise(){
         return provider_project+provider_Enterprise;
     }
-
-    public UrlConstants(String enterprise_project, String provider_project) {
-        this.enterprise_project = enterprise_project;
-        this.provider_project = provider_project;
-    }
-
-	public String getProviderCompress() {
+    public String getProviderCompress() {
 		return provider_project+provider_Compress;
 	}
 
+    @Override
+    public String toString() {
+        return "UrlConstants{" +
+                "enterprise_account='" + enterprise_account + '\'' +
+                ", enterprise_upload='" + enterprise_upload + '\'' +
+                ", enterprise_register='" + enterprise_register + '\'' +
+                ", enterprise_saveServiceRequest='" + enterprise_saveServiceRequest + '\'' +
+                ", captcha='" + captcha + '\'' +
+                ", provider_userName='" + provider_userName + '\'' +
+                ", provider_password='" + provider_password + '\'' +
+                ", provider_login='" + provider_login + '\'' +
+                ", provider_query='" + provider_query + '\'' +
+                ", provider_qz='" + provider_qz + '\'' +
+                ", provider_uploadImg='" + provider_uploadImg + '\'' +
+                ", provider_push='" + provider_push + '\'' +
+                ", provider_pushNotice='" + provider_pushNotice + '\'' +
+                ", provider_Enterprise='" + provider_Enterprise + '\'' +
+                ", provider_Compress='" + provider_Compress + '\'' +
+                ", enterprise_project='" + enterprise_project + '\'' +
+                ", provider_project='" + provider_project + '\'' +
+                '}';
+    }
 }

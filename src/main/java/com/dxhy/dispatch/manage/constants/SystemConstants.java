@@ -1,4 +1,4 @@
-package com.dxhy.dispatch.constants;
+package com.dxhy.dispatch.manage.constants;
 
 public interface SystemConstants {
 	

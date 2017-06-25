@@ -23,18 +23,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dxhy.dispatch.constants.SystemConstants.charset;
+import static com.dxhy.dispatch.manage.constants.SystemConstants.charset;
 
 
 /**
  * Created by 赵睿 on 2016/11/15.
- *
+ * <p>
  * 操作-企业申请服务
- *
  */
 @Service
 public class EnterpriseApplyForServiceHandler extends HandlerService {
-    private static final Logger logger= LoggerFactory.getLogger(EnterpriseApplyForServiceHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(EnterpriseApplyForServiceHandler.class);
 
     @Autowired
     protected ProviderMsg providerMsg;
@@ -42,28 +41,28 @@ public class EnterpriseApplyForServiceHandler extends HandlerService {
 
     @Override
     protected boolean handler(HandlerData handlerData) throws IOException {
-        Enterprise enterprise =handlerData.getEnterprise();
-        ServiceInfo serviceInfo=enterprise.getServiceInfo();
+        Enterprise enterprise = handlerData.getEnterprise();
+        ServiceInfo serviceInfo = enterprise.getServiceInfo();
 
-        Map<String ,String > map=new HashMap<>();
+        Map<String, String> map = new HashMap<>();
 
         map.put("providerproductid", providerMsg.getProviderProductId());
-        map.put("tax_org_code",serviceInfo.getTaxOrgId());
-        map.put("sign",serviceInfo.getSignatureStatus());//待审核
-        map.put("tax_disc_type",serviceInfo.getTaxDiscType());
-        map.put("cert_email",serviceInfo.getCertEmail());
-        map.put("city_org_code","");
+        map.put("tax_org_code", serviceInfo.getTaxOrgId());
+        map.put("sign", serviceInfo.getSignatureStatus());//待审核
+        map.put("tax_disc_type", serviceInfo.getTaxDiscType());
+        map.put("cert_email", serviceInfo.getCertEmail());
+        map.put("city_org_code", "");
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost post = new HttpPost(urlConstants.getEnterpriseSaveServiceRequest());
-        post.setEntity(new UrlEncodedFormEntity( HttpServletUtils.toNameValuePairs(map), charset));
+        post.setEntity(new UrlEncodedFormEntity(HttpServletUtils.toNameValuePairs(map), charset));
         post.setHeader("Cookie", "JSESSIONID=" + handlerData.getJsessionId());
         CloseableHttpResponse response = httpclient.execute(post);
 
         StatusLine statusLine = response.getStatusLine();
         HttpEntity httpEntity = response.getEntity();
         String result = EntityUtils.toString(httpEntity);
-        logger.debug("使用post请求方式,返回状态为{}，请求返回的报文实体数据为:{}",statusLine, result);
+        logger.debug("使用post请求方式,返回状态为{}，请求返回的报文实体数据为:{}", statusLine, result);
 
 
         return true;

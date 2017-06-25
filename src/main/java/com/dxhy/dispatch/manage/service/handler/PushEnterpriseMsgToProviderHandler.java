@@ -41,17 +41,17 @@ public class PushEnterpriseMsgToProviderHandler extends HandlerService {
     public void certificateCompress(String ratePayersCode, String jsessionId) throws IOException {
         logger.info("调压缩证书并获得压缩密码接口的参数ratePayersCode={},jsessionId={}", ratePayersCode, jsessionId);
         if (StringUtils.isNotBlank(ratePayersCode) && StringUtils.isNotBlank(jsessionId)) {
-            List<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("", ""));
-            String resp = HttpServletUtils.requestPost(urlConstants.getProviderCompress() + ratePayersCode + ".html", nameValuePairs, jsessionId);
-            JsonNode jsonNode = objectMapper.readTree(resp);
-            String returnCode=jsonNode.findValue("code").asText();
-            logger.info("调压缩证书并获得压缩密码接口返回的数据：{}", jsonNode);
-            if ("200".equals(returnCode)){
-                logger.info("调压缩证书并获得压缩密码成功");
-            }else{
-                throw new IOException("调压缩证书并获得压缩密码失败");
-            }
+	  List<NameValuePair> nameValuePairs = new ArrayList<>();
+	  nameValuePairs.add(new BasicNameValuePair("", ""));
+	  String resp = HttpServletUtils.requestPost(urlConstants.getProviderCompress() + ratePayersCode + ".html", nameValuePairs, jsessionId);
+	  JsonNode jsonNode = objectMapper.readTree(resp);
+	  String returnCode = jsonNode.findValue("code").asText();
+	  logger.info("调压缩证书并获得压缩密码接口返回的数据：{}", jsonNode);
+	  if ("200".equals(returnCode)) {
+	      logger.info("调压缩证书并获得压缩密码成功");
+	  } else {
+	      throw new IOException("调压缩证书并获得压缩密码失败");
+	  }
         }
     }
 
@@ -72,10 +72,10 @@ public class PushEnterpriseMsgToProviderHandler extends HandlerService {
         String returnCode = jsonNode.path("response").path("returnCode").asText();
         String returnMessage = jsonNode.path("response").path("returnMessage").asText();
         if (!"0000".equals(returnCode)) {
-            logger.error("推送企业资质信息给京东失败，返回信息为:{}", returnMessage);
-            throw new IOException(returnMessage);
-        }else{
-            logger.info("推送企业资质信息给京东成功，返回信息为:{}", returnMessage);
+	  logger.error("推送企业资质信息给京东失败，返回信息为:{}", returnMessage);
+	  throw new IOException(returnMessage);
+        } else {
+	  logger.info("推送企业资质信息给京东成功，返回信息为:{}", returnMessage);
         }
     }
 }

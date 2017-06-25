@@ -18,19 +18,20 @@ import java.util.List;
 
 @Service
 public class ProviderApproveEnterpriseHandler extends HandlerService {
-    private static final Logger logger= LoggerFactory.getLogger(ProviderApproveEnterpriseHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProviderApproveEnterpriseHandler.class);
 
     @Override
     protected boolean handler(HandlerData handlerData) throws IOException {
-        String img =handlerData.getEnterprise().getServiceInfo().getSignatureProxyImg();
-        uploadImg(handlerData.getEleProcessLogs().getEnterprise_id()+"/2/",img,providerMsg.getProviderCookie());
+        String img = handlerData.getEnterprise().getServiceInfo().getSignatureProxyImg();
+        uploadImg(handlerData.getEleProcessLogs().getEnterprise_id() + "/2/", img, providerMsg.getProviderCookie());
         return true;
     }
 
     /**
      * 图片上传-针对于签章协议上传
-     * @param path 图片上传路径
-     * @param img base64转码之后的图片文件
+     *
+     * @param path       图片上传路径
+     * @param img        base64转码之后的图片文件
      * @param jsessionId cookie
      */
     public void uploadImg(String path, String img, String jsessionId) throws IOException {
@@ -38,12 +39,12 @@ public class ProviderApproveEnterpriseHandler extends HandlerService {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("path", path));
         params.add(new BasicNameValuePair("img", img));
-        String resp= HttpServletUtils.requestPost(urlConstants.getProviderUploadImg(),params,jsessionId);
-        ObjectMapper objectMapper=new ObjectMapper();
-        JsonNode node=objectMapper.readTree(resp);
-        String code= node.findValue("code").asText();
-        if(!"200".equals(code)){
-            throw new HttpResponseException(Integer.parseInt(code),node.findValue("message").asText());
+        String resp = HttpServletUtils.requestPost(urlConstants.getProviderUploadImg(), params, jsessionId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode node = objectMapper.readTree(resp);
+        String code = node.findValue("code").asText();
+        if (!"200".equals(code)) {
+	  throw new HttpResponseException(Integer.parseInt(code), node.findValue("message").asText());
         }
     }
 

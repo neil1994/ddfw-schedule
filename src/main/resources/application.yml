@@ -2,8 +2,9 @@
 spring:
   profiles:
     active: dev
-  jackson:
-    mapper: true
+#启动端口
+server:
+  port: 8080
 #mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -44,3 +45,4 @@ dxhy:
     provider_Enterprise: api/enterprise
 
     provider_Compress: enterprise/static/sendCertEmail/
+
