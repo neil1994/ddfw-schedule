@@ -6,19 +6,19 @@
 
 	<select id="getContent" resultType="map" parameterType="map">
 		SELECT
-			dataExchangeId,
-			content
+			alc.log_id,
+			alc.content
 		FROM
-			api_log_content
+			api_log_content alc
 		WHERE
-			dataExchangeId IN (
+			log_id IN (
 				SELECT
-					dataExchangeId
+					api_log.pk_log
 				FROM
 					api_log
 				WHERE
-					appId = #{appId}
-				AND process_status = #{processStatus}
+					api_log.appId =${appId}
+				AND api_log.process_status =${processStatus}
 			)
 	</select>
 	
@@ -27,7 +27,7 @@
 		UPDATE api_log
 		SET process_status = #{processStatus}
 		WHERE
-			dataExchangeId = #{dataExchangeId}
+			log_id = #{log_id}
 	</update>
     
 </mapper>

@@ -9,9 +9,16 @@ spring:
 
 #logger 日志配置
 logging:
-  level: error
+  level: debug
 
-#企业服务地址
-enterprise_project: http://103.237.2.28:8084/enterprise/
-#服务商服务地址
-provider_project: http://103.237.2.28:8085/provider/
+#启动端口
+server:
+  port: 8080
+
+#项目服务配置
+dxhy:
+  schedule:
+  #企业服务地址
+    enterprise_project: http://103.237.2.58:8084/enterprise/
+    #服务商服务地址
+    provider_project: http://103.237.2.58:8085/provider/

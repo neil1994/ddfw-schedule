@@ -11,7 +11,7 @@ import com.dxhy.dispatch.manage.bean.protocol.Enterprise;
 public class HandlerData {
     protected Enterprise enterprise;
 
-    protected String serialNum;
+    protected String log_id;
 
     protected String jsessionId;
 
@@ -25,12 +25,12 @@ public class HandlerData {
         this.enterprise = enterprise;
     }
 
-    public String getSerialNum() {
-        return serialNum;
+    public String getLog_id() {
+        return log_id;
     }
 
-    public void setSerialNum(String serialNum) {
-        this.serialNum = serialNum;
+    public void setLog_id(String log_id) {
+        this.log_id = log_id;
     }
 
     public EleProcessLogs getEleProcessLogs() {
@@ -53,9 +53,9 @@ public class HandlerData {
     public HandlerData() {
     }
 
-    public HandlerData(Enterprise enterprise, String serialNum) {
+    public HandlerData(Enterprise enterprise, String log_id) {
         this.enterprise = enterprise;
-        this.serialNum = serialNum;
+        this.log_id = log_id;
     }
 
 

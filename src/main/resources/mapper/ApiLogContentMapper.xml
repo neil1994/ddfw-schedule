@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxhy.dispatch.manage.dao.ApiLogContentMapper">
+  <resultMap id="BaseResultMap" type="com.dxhy.dispatch.manage.bean.tables.ApiLogContent">
+    <id column="pk_log_content" jdbcType="CHAR" property="pk_log_content" />
+    <result column="log_id" jdbcType="CHAR" property="log_id" />
+    <result column="dataExchangeId" jdbcType="VARCHAR" property="dataExchangeId" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    pk_log_content, log_id, dataExchangeId
+  </sql>
+
+  <insert id="insertContent" parameterType="com.dxhy.dispatch.manage.bean.tables.ApiLogContent">
+    insert into api_log_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pk_log_content != null">
+        pk_log_content,
+      </if>
+      <if test="log_id != null">
+        log_id,
+      </if>
+      <if test="dataExchangeId != null">
+        dataExchangeId,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pk_log_content != null">
+        #{pk_log_content,jdbcType=CHAR},
+      </if>
+      <if test="log_id != null">
+        #{log_id,jdbcType=CHAR},
+      </if>
+      <if test="dataExchangeId != null">
+        #{dataExchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

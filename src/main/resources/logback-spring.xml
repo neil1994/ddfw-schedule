@@ -1,30 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration  scan="true" scanPeriod="60 seconds" debug="false">
-    <contextName>logback</contextName>
-    <property name="log.path" value="\Users\lzy\schedule.log" />
-    <!--输出到控制台-->
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-       <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>-->
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--加载spring的日志配置文件-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
-    <!--输出到文件-->
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logback.%d{yyyy-MM-dd}.log</fileNamePattern>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
+    <property name="contextName" value="@groupId@:@artifactId@:@version@"/>
+    <!--日志能够保存的条数。-->
+    <property name="maxHistory" value="100"/>
+    <property name="maxFileSize" value="10MB"/>
+    <property name="contextFile" value="@groupId@/@artifactId@/@version@"/>
+    <property name="logFilePath" value="@logging.file@"/>
+
+    <contextName>${contextName}</contextName>
+
+    <include resource="logback/dxhy-logback.xml" />
+
+    <logger name="org.springframework" level="info"/>
+    <logger name="com.dxhy" level="debug"/>
 
     <root level="info">
-        <appender-ref ref="console" />
-        <appender-ref ref="file" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="process"/>
+        <appender-ref ref="error"/>
     </root>
 </configuration>

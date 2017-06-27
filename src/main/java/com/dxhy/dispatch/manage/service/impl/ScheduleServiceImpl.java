@@ -10,10 +10,12 @@ import com.dxhy.dispatch.manage.dao.ScheduleDao;
 import com.dxhy.dispatch.manage.service.HandlerService;
 import com.dxhy.dispatch.manage.service.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import static com.dxhy.dispatch.manage.enumConfig.HandlerEnum.StartHandler;
  * Created by 赵睿 on 2016/11/15.
  */
 @SuppressWarnings("ALL")
+@Service
 public class ScheduleServiceImpl implements ScheduleService {
     private static Logger logger = LoggerFactory.getLogger(ScheduleServiceImpl.class);
 
@@ -50,44 +53,38 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private OpenApiDao openApiDao;
 
-    @Value("${provider_id}")
-    private String provider_id;
-
-    private List<String> whiteLists;
-
     @Override
-    public void schedule(String serialNum, String json) {
+    public void schedule(String log_id, String json) {
         Enterprise enterprise = parseJsom(json);
-        whiteLists = getWhiteLists();
         ServiceInfo serviceInfo = enterprise.getServiceInfo();
         if (null != enterprise.getServiceInfo()) {
-	  logger.debug("处理解析后的签章状态，初始化为:0");
-	  serviceInfo.setSignatureStatus("0");
-	  logger.debug("处理解析后的金税盘类型，初始化为:1");
-	  serviceInfo.setTaxDiscType("1");
-	  enterprise.setServiceInfo(serviceInfo);
+            logger.debug("处理解析后的签章状态，初始化为:0");
+            serviceInfo.setSignatureStatus("0");
+            logger.debug("处理解析后的金税盘类型，初始化为:1");
+            serviceInfo.setTaxDiscType("1");
+            enterprise.setServiceInfo(serviceInfo);
         } else {
-	  logger.error("企业需要的服务的相关信息ServiceInfo为Null");
+            logger.error("企业需要的服务的相关信息ServiceInfo为Null");
         }
 
-        logger.debug("开始处理流水号为{}的数据", serialNum);
+        logger.debug("开始处理的数据log主键为{}的数据", log_id);
         //TODO 在处理数据的时候，完全需要先去数据库中读取数据，然后判断数据库信息，最终跳过某些步骤
         EnterpriseBase enterpriseBase = enterprise.getEnterpriseBase();
         EleProcessLogs eleProcessLogs = scheduleDao.selectEleProcessLogs(enterpriseBase.getRatepayersCode());
         if (eleProcessLogs == null) {
-	  eleProcessLogs = new EleProcessLogs(provider_id, "企业id当前未生成！", enterpriseBase.getRatepayersCode(), StartHandler.getCode() + "0",
-		StartHandler.getDescribe(), "1", "0");
-	  logger.info("插入调度记录表，记录为开始处理业务");
-	  if (scheduleDao.installProcessLog(eleProcessLogs)) {
-	      Map<String, String> map = new HashMap<>();
-	      map.put("dataExchangeId", serialNum);
-	      map.put("processStatus", "2");
-	      openApiDao.updateProcessStatus(map);
-	  } else {
-	      logger.error("插入调度记录表失败，失败数据为{},对该条数据不做任何处理，请求内层数据为：{}", eleProcessLogs, json);
-	  }
+            eleProcessLogs = new EleProcessLogs("", "企业id当前未生成！", enterpriseBase.getRatepayersCode(), StartHandler.getCode() + "0",
+                    StartHandler.getDescribe(), "1", "0");
+            logger.info("插入调度记录表，记录为开始处理业务");
+            if (scheduleDao.installProcessLog(eleProcessLogs)) {
+                Map<String, String> map = new HashMap<>();
+                map.put("log_id", log_id);
+                map.put("processStatus", "2");
+                openApiDao.updateProcessStatus(map);
+            } else {
+                logger.error("插入调度记录表失败，失败数据为{},对该条数据不做任何处理，请求内层数据为：{}", eleProcessLogs, json);
+            }
         }
-        HandlerData handlerData = new HandlerData(enterprise, serialNum);
+        HandlerData handlerData = new HandlerData(enterprise, log_id);
         handlerData.setEleProcessLogs(eleProcessLogs);
         scheduleHandler(handlerData);
     }
@@ -104,9 +101,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         Enterprise enterprise = new Enterprise();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-	  enterprise = objectMapper.readValue(json, Enterprise.class);
+            objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+            enterprise = objectMapper.readValue(json, Enterprise.class);
         } catch (IOException e) {
-	  e.printStackTrace();
+            e.printStackTrace();
         }
         return enterprise;
     }
@@ -128,20 +126,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         handlerServiceList.add(pushEnterpriseMsgToProviderHandler);
 
         for (int i = 0; i < handlerServiceList.size() - 1; i++) {
-	  handlerServiceList.get(i).setNextHandler(handlerServiceList.get(i + 1));
+            handlerServiceList.get(i).setNextHandler(handlerServiceList.get(i + 1));
         }
         handlerServiceList.get(0).handlerService(handlerData);
     }
 
-    /**
-     * 获取白名单
-     *
-     * @return
-     */
-    public List<String> getWhiteLists() {
-        if (whiteLists.isEmpty()) {
-	  whiteLists.add("10");
-        }
-        return whiteLists;
-    }
 }

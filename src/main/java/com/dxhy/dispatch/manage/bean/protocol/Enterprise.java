@@ -1,10 +1,13 @@
 package com.dxhy.dispatch.manage.bean.protocol;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 /**
  * 企业申请电子发票 协议头
  * Created by 赵睿 on 2016/11/16.
  */
 @SuppressWarnings("unused")
+@JsonRootName("enterprise")
 public class Enterprise {
     private EnterpriseBase enterpriseBase;
 

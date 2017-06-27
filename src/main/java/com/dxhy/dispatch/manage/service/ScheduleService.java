@@ -8,5 +8,5 @@ public interface ScheduleService {
     /**
      * 调度服务，代替人工完成操作
      */
-    void schedule(String serialNum, String json);
+    void schedule(String log_id, String json);
 }

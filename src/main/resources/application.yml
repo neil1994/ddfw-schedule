@@ -1,10 +1,28 @@
 ## Spring Profiles Active
 spring:
-  profiles:
-    active: dev
-#启动端口
-server:
-  port: 8080
+   application:
+      name: @project.artifactId@
+   profiles:
+     active: @deployType@
+   config:
+      location: classpath:/config
+## 项目信息
+info:
+  build:
+    groupId: @project.groupId@
+    artifact: @project.artifactId@
+    name: @project.name@
+    version: @project.version@
+
+endpoints:
+  logfile:
+    enabled: true
+    sensitive: true
+    externa-file: @logging.file@/@project.groupId@/@project.artifactId@/@project.version@/process.log
+management:
+  security:
+    enabled: false
+
 #mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -38,11 +56,10 @@ dxhy:
     provider_password: EleJd2016
     provider_login: index.html
     provider_query: service/queryProvider.html
-    provider_qz: enterprise/static/qzResult.html?eId
+    provider_qz: enterprise/static/qzResult.html?eId=
     provider_uploadImg: upLoad/uploadImg.html
     provider_push: JDPush/pushEnterprise.html
     provider_pushNotice: JDPush/pushNotice.html
     provider_Enterprise: api/enterprise
-
     provider_Compress: enterprise/static/sendCertEmail/
 

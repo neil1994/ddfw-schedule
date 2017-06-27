@@ -1,12 +1,12 @@
 package com.dxhy.dispatch.utils;
 
 
+import com.dxhy.dispatch.manage.constants.RegexEnum;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.dxhy.dispatch.manage.constants.RegexEnum;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * <p>

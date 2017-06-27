@@ -60,12 +60,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -115,14 +109,7 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
     <!-- 定义项目各阶段所使用的配置信息 -->
     <profiles>
         <!-- 开发环境 -->
@@ -132,6 +119,10 @@
                 <deployType>dev</deployType>
                 <logging.file>D:/logs/</logging.file>
             </properties>
+            <!-- 默认激活 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <!-- 测试环境 -->
         <profile>
@@ -151,12 +142,36 @@
         </profile>
         <!-- 正式环境 -->
         <profile>
-            <id>product</id>
+            <id>production</id>
             <properties>
-                <deployType>product</deployType>
+                <deployType>production</deployType>
                 <logging.file>/home/dxhy/logs/</logging.file>
             </properties>
         </profile>
     </profiles>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--mybatis插件-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <configuration>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                    <configurationFile>src/main/resources/mybatis/generatorConfig.xml</configurationFile>
+                </configuration>
+            </plugin>
+        </plugins>
+        <!--添加resources配置设置filtering为true-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>

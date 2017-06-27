@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxhy.dispatch.manage.dao.ApiLogMapper">
+
+  <resultMap id="BaseResultMap" type="com.dxhy.dispatch.manage.bean.tables.ApiLog">
+    <id column="pk_log" jdbcType="CHAR" property="pk_log" />
+    <result column="appId" jdbcType="VARCHAR" property="appId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="passWord" jdbcType="VARCHAR" property="passWord" />
+    <result column="taxpayerId" jdbcType="VARCHAR" property="taxpayerId" />
+    <result column="enterpriseCode" jdbcType="VARCHAR" property="enterpriseCode" />
+    <result column="dataExchangeId" jdbcType="VARCHAR" property="dataExchangeId" />
+    <result column="returnCode" jdbcType="CHAR" property="returnCode" />
+    <result column="returnMessage" jdbcType="VARCHAR" property="returnMessage" />
+    <result column="zipCode" jdbcType="CHAR" property="zipCode" />
+    <result column="encryptCode" jdbcType="CHAR" property="encryptCode" />
+    <result column="process_status" jdbcType="CHAR" property="process_status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="interfaceCode" jdbcType="VARCHAR" property="interfaceCode" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    pk_log, appId, version, userName, passWord, taxpayerId, enterpriseCode, dataExchangeId,
+    returnCode, returnMessage, zipCode, encryptCode, process_status, create_time, interfaceCode
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from api_log
+    where pk_log = #{pk_log,jdbcType=CHAR}
+  </select>
+
+  <insert id="insertApiLog" parameterType="com.dxhy.dispatch.manage.bean.tables.ApiLog">
+    insert into api_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pk_log != null">
+        pk_log,
+      </if>
+      <if test="appId != null">
+        appId,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="userName != null">
+        userName,
+      </if>
+      <if test="passWord != null">
+        passWord,
+      </if>
+      <if test="taxpayerId != null">
+        taxpayerId,
+      </if>
+      <if test="enterpriseCode != null">
+        enterpriseCode,
+      </if>
+      <if test="dataExchangeId != null">
+        dataExchangeId,
+      </if>
+      <if test="returnCode != null">
+        returnCode,
+      </if>
+      <if test="returnMessage != null">
+        returnMessage,
+      </if>
+      <if test="zipCode != null">
+        zipCode,
+      </if>
+      <if test="encryptCode != null">
+        encryptCode,
+      </if>
+      <if test="process_status != null">
+        process_status,
+      </if>
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="interfaceCode != null">
+        interfaceCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pk_log != null">
+        #{pk_log,jdbcType=CHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null">
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerId != null">
+        #{taxpayerId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCode != null">
+        #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dataExchangeId != null">
+        #{dataExchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null">
+        #{returnCode,jdbcType=CHAR},
+      </if>
+      <if test="returnMessage != null">
+        #{returnMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        #{zipCode,jdbcType=CHAR},
+      </if>
+      <if test="encryptCode != null">
+        #{encryptCode,jdbcType=CHAR},
+      </if>
+      <if test="process_status != null">
+        #{process_status,jdbcType=CHAR},
+      </if>
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interfaceCode != null">
+        #{interfaceCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByApiLog" parameterType="com.dxhy.dispatch.manage.bean.tables.ApiLog">
+    update api_log
+    <set>
+      <if test="appId != null">
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null">
+        passWord = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerId != null">
+        taxpayerId = #{taxpayerId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCode != null">
+        enterpriseCode = #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dataExchangeId != null">
+        dataExchangeId = #{dataExchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null">
+        returnCode = #{returnCode,jdbcType=CHAR},
+      </if>
+      <if test="returnMessage != null">
+        returnMessage = #{returnMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        zipCode = #{zipCode,jdbcType=CHAR},
+      </if>
+      <if test="encryptCode != null">
+        encryptCode = #{encryptCode,jdbcType=CHAR},
+      </if>
+      <if test="process_status != null">
+        process_status = #{process_status,jdbcType=CHAR},
+      </if>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interfaceCode != null">
+        interfaceCode = #{interfaceCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pk_log = #{pk_log,jdbcType=CHAR}
+  </update>
+
+
+</mapper>

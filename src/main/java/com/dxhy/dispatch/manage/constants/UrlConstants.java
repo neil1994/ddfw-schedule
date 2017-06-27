@@ -1,8 +1,6 @@
 package com.dxhy.dispatch.manage.constants;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * url常量，读取配置文件，配置请求路径
