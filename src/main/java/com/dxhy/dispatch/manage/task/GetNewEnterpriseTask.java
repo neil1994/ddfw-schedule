@@ -29,7 +29,7 @@ public class GetNewEnterpriseTask {
     @Autowired
     private OpenApiDao openApiDao;
 
-    @Scheduled(cron = "0 */1 *  * * * ")
+//    @Scheduled(cron = "0 */1 *  * * * ")
     public void scanTask(){
         logger.info("查询京东服务商企业信息注册认证定时器启动");
         Map<String,String> requestMap= new HashMap<>();

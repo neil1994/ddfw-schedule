@@ -25,6 +25,7 @@ public class ProviderMsgTest {
     public void testProviderCookie(){
         logger.info("开始测试ProviderMsg");
         try {
+            providerMsg.queryProviderByName("京东");
 	  String providerCookie = providerMsg.getProviderCookie();
 	  logger.info("获取的providerCookie为：{}",providerCookie);
 	  String providerId = providerMsg.getProviderId();

@@ -17,7 +17,6 @@ public class UrlConstants {
     private String captcha;
 
 
-    private String provider_userName;
     private String provider_password;
     private String provider_login;
     private String provider_query;
@@ -26,11 +25,20 @@ public class UrlConstants {
     private String provider_push;
     private String provider_pushNotice;
     private String provider_Enterprise;
+    private String provider_getName;
     //证书压缩
     private String provider_Compress;
 
     private String enterprise_project;
     private String provider_project;
+
+    public String getProvider_getName() {
+        return provider_getName;
+    }
+
+    public void setProvider_getName(String provider_getName) {
+        this.provider_getName = provider_getName;
+    }
 
     public String getEnterprise_account() {
         return enterprise_account;
@@ -68,9 +76,6 @@ public class UrlConstants {
         this.captcha = captcha;
     }
 
-    public void setProvider_userName(String provider_userName) {
-        this.provider_userName = provider_userName;
-    }
 
     public void setProvider_password(String provider_password) {
         this.provider_password = provider_password;
@@ -196,10 +201,6 @@ public class UrlConstants {
         return  provider_project +provider_push;
     }
 
-    public String getProvider_userName() {
-        return provider_userName;
-    }
-
     public String getProvider_password() {
         return provider_password;
     }
@@ -228,7 +229,6 @@ public class UrlConstants {
                 ", enterprise_register='" + enterprise_register + '\'' +
                 ", enterprise_saveServiceRequest='" + enterprise_saveServiceRequest + '\'' +
                 ", captcha='" + captcha + '\'' +
-                ", provider_userName='" + provider_userName + '\'' +
                 ", provider_password='" + provider_password + '\'' +
                 ", provider_login='" + provider_login + '\'' +
                 ", provider_query='" + provider_query + '\'' +

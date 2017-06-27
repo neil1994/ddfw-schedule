@@ -37,6 +37,27 @@ public class ProviderMsg {
 
     private String providerCookie;
 
+    private String loginName;
+
+
+    /**
+     *  获取服务商的登录名
+     */
+    public void queryProviderByName(String providerName) throws IOException {
+        String url=urlConstants.getProvider_project()+urlConstants.getProvider_getName()+"?providerName="+providerName;
+        String response = HttpServletUtils.reqeustGet(url);
+        JsonNode node = objectMapper.readTree(response);
+        String code = node.findValue("code").asText();
+        if ("200".equals(code)) {
+            loginName = node.findValue("login_name").asText();
+            providerId = node.findValue("pk_provider").asText();
+            logger.info("获取服务商的登录名成功后，loginName：{}", loginName);
+        } else {
+            throw new HttpResponseException(Integer.parseInt(code), node.findValue("message").asText());
+        }
+
+    }
+
     private void queryProvider(String pCookie) throws IOException {
         String response = HttpServletUtils.reqeustGet(urlConstants.getProvider(), getProviderCookie());
         JsonNode node = objectMapper.readTree(response);
@@ -48,6 +69,14 @@ public class ProviderMsg {
         } else {
 	  throw new HttpResponseException(Integer.parseInt(code), node.findValue("message").asText());
         }
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public String getProviderId() throws IOException {
@@ -67,11 +96,11 @@ public class ProviderMsg {
     public String getProviderCookie() throws IOException {
         Long now = new Date().getTime();
         if (now > expriseTime + sessionExprise) {
-	  providerCookie = HttpServletUtils.login(urlConstants.getProvider_userName(), urlConstants.getProvider_password(), urlConstants.getProviderLogin(), urlConstants.getCaptcha());
+	  providerCookie = HttpServletUtils.login(loginName, urlConstants.getProvider_password(), urlConstants.getProviderLogin(), urlConstants.getCaptcha());
 	  expriseTime = now;
         }
         if (providerCookie == null && "".equals(providerCookie)) {
-	  providerCookie = HttpServletUtils.login(urlConstants.getProvider_userName(), urlConstants.getProvider_password(), urlConstants.getProviderLogin(), urlConstants.getCaptcha());
+	  providerCookie = HttpServletUtils.login(loginName, urlConstants.getProvider_password(), urlConstants.getProviderLogin(), urlConstants.getCaptcha());
         }
         logger.info("服务商用户登录成功后，providerCookie:{}", providerCookie);
         return providerCookie;

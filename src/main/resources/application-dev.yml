@@ -19,7 +19,7 @@ server:
 dxhy:
   schedule:
   #企业服务地址
-    enterprise_project: http://103.237.2.58:8084/enterprise/
+    enterprise_project: http://localhost:8084/enterprise/
     #服务商服务地址
-    provider_project: http://103.237.2.58:8085/provider/
+    provider_project: http://localhost:8084/provider/
 
