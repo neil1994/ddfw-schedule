@@ -119,10 +119,7 @@
                 <deployType>dev</deployType>
                 <logging.file>D:/logs/</logging.file>
             </properties>
-            <!-- 默认激活 -->
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+
         </profile>
         <!-- 测试环境 -->
         <profile>
@@ -131,6 +128,10 @@
                 <deployType>test</deployType>
                 <logging.file>/home/dxhy/logs/</logging.file>
             </properties>
+            <!-- 默认激活 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <!-- 预发布环境 -->
         <profile>

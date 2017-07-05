@@ -1,6 +1,5 @@
 package com.dxhy.dispatch.manage.service.impl;
 
-import com.dxhy.dispatch.manage.bean.protocol.Data;
 import com.dxhy.dispatch.manage.bean.protocol.Enterprise;
 import com.dxhy.dispatch.manage.bean.protocol.EnterpriseBase;
 import com.dxhy.dispatch.manage.bean.protocol.ServiceInfo;
@@ -12,11 +11,9 @@ import com.dxhy.dispatch.manage.dao.ScheduleDao;
 import com.dxhy.dispatch.manage.service.HandlerService;
 import com.dxhy.dispatch.manage.service.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -117,8 +114,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Enterprise enterprise = new Enterprise();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Data data = objectMapper.readValue(json, Data.class);
-            enterprise=data.getEnterprise();
+            enterprise = objectMapper.readValue(json, Enterprise.class);
         } catch (IOException e) {
             logger.error("解析json数据出错，错误信息为:{}",e.getMessage());
             e.printStackTrace();

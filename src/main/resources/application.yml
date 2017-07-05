@@ -53,7 +53,7 @@ dxhy:
     captcha: ele&DB
 
     provider_getName: account/getLoginName.html
-    provider_password: EleDxhy2016
+    provider_password: EleJd2016
     provider_login: index.html
     provider_query: service/queryProvider.html
     provider_qz: enterprise/static/qzResult.html?eId=

@@ -23,11 +23,11 @@
 	</select>
 	
 	
-	<update id="updateProcessStatus"  >
-		UPDATE api_log
-		SET process_status = #{processStatus}
+	<update id="updateProcessStatus">
+		UPDATE api_log al
+		SET al.process_status = #{processStatus}
 		WHERE
-			log_id = #{log_id}
+			al.pk_log =#{log_id}
 	</update>
     
 </mapper>
